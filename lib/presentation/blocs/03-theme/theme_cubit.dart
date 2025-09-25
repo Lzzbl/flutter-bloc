@@ -8,7 +8,7 @@ class ThemeCubit extends Cubit<ThemeState> {
     bool darkMode = false,
     }
     
-  ) : super(ThemeState(isDarkmode: false));
+  ) : super(ThemeState(isDarkmode: darkMode));
 
 void toggleTheme() {
     emit( ThemeState(isDarkmode: !state.isDarkmode) );

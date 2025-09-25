@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:blocs_app/presentation/blocs/blocs.dart';
 
 void main() {
+  serviceLocatorInit();
   runApp(const BlocsProviders());
 }
 
@@ -14,10 +15,11 @@ class BlocsProviders extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => UsernameCubit(), lazy: false),
-        BlocProvider(create: (context) => RouterSimpleCubit()),
-        BlocProvider(create: (context) => CounterCubit()),
-        BlocProvider(create: (context) => ThemeCubit()),
+        BlocProvider(create: (context) => getIt<UsernameCubit>() ),
+        BlocProvider(create: (context) => getIt<RouterSimpleCubit>() ),
+        BlocProvider(create: (context) =>  getIt<CounterCubit>() ),
+        BlocProvider(create: (context) => getIt<ThemeCubit>() ),
+        
 
       ],
       child: const MyApp(),
@@ -32,12 +34,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     final appRouter = context.watch<RouterSimpleCubit>().state;
+    final theme = context.watch<ThemeCubit>().state;
 
     return MaterialApp.router(
       title: 'Flutter BLoC',
       debugShowCheckedModeBanner: false,
       routerConfig: appRouter,
-      theme: AppTheme( isDarkmode: false ).getTheme(),
+      theme: AppTheme( isDarkmode: theme.isDarkmode ).getTheme(),
     );
   }
 }
